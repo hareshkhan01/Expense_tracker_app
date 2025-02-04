@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { config } from '../config/config'
-import { HttpError } from 'http-errors'
+//import { HttpError } from 'http-errors'
 if (!config.apiKey) {
   throw new Error('GEMINI_API_KEY is not set in the environment variables.')
 }
@@ -27,7 +27,7 @@ const classifyExpense = async (expenseDescription: string): Promise<string> => {
       response.data?.candidates?.[0]?.output || 'Uncategorized'
     return generatedText.trim()
   } catch (error: Error) {
-    console.error('Error classifying expense:', error)
+    console.error('Failed to classify the expense:', error)
     throw new Error('Failed to classify the expense.')
   }
 }
