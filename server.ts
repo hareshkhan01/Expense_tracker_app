@@ -1,5 +1,12 @@
-console.log("its alright");
-function add(a: number, b: number): number {
-  return a + b;
+import app from './src/app';
+
+const startServer = async () => {
+
+    const PORT = process.env.PORT || 3000;
+
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
 }
-add(1, 2);
+
+startServer();
