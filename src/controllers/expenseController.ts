@@ -1,7 +1,7 @@
 // src/controllers/expenseController.ts
 import {  Request, Response } from 'express'
-import  getExpenseDetails  from './geminiService' // Your Gemini API service
-import Expense from './expenseModel' // Your Mongoose model
+import  getExpenseDetails  from '../services/geminiService' // Your Gemini API service
+import Expense from '../models/expenseModel' // Your Mongoose model
 
  const addExpense = async (req: Request, res: Response):Promise<any> => {
   try {
@@ -10,7 +10,7 @@ import Expense from './expenseModel' // Your Mongoose model
     // Use Gemini API to get the expense category
     const { amount, category } = await getExpenseDetails(description)
     const date = new Date()
-
+    console.log(date)
     //Create a new expense record with the categorized data
     const newExpense = new Expense({
       amount,

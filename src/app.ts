@@ -1,7 +1,7 @@
 import express , {Request, Response, NextFunction} from 'express';
 import createHttpError from 'http-errors';
 import globalErrorHandler from "./middlewares/globalErrorHandller";
-import useRouter from './expenses/expenseRouter'
+import useRouter from './routes/expenseRouter'
 
 const app = express()
 app.use(express.json());

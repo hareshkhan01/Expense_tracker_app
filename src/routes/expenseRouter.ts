@@ -1,5 +1,5 @@
 import express from "express";
-import { addExpense } from "./expenseController";
+import { addExpense } from "../controllers/expenseController";
 const useRouter = express.Router();
 //routes
 
