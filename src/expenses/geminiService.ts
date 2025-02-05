@@ -1,35 +1,30 @@
-import axios from 'axios'
+// geminiService.ts
+
 import { config } from '../config/config'
-//import { HttpError } from 'http-errors'
-if (!config.apiKey) {
-  throw new Error('GEMINI_API_KEY is not set in the environment variables.')
-}
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const classifyExpense = async (expenseDescription: string): Promise<string> => {
-  const prompt = `Categorize the following expense: "${expenseDescription}" into one category such as "Food", "Travel", or "Utilities".`
+const genAi = new GoogleGenerativeAI(config.apiKey as string)
+const model = genAi.getGenerativeModel({ model: 'gemini-1.5-flash' })
+const prompt = ``
 
+const getCategory = async (prompt: string) => {
   try {
-    const response = await axios.post(
-      'https://generativelanguage.googleapis.com/v1beta2/models/gemini-1.5:generateText',
-      {
-        prompt: { text: prompt },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${config.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-
-    // Extract the generated text from the response
-    const generatedText =
-      response.data?.candidates?.[0]?.output || 'Uncategorized'
-    return generatedText.trim()
-  } catch (error: Error) {
-    console.error('Failed to classify the expense:', error)
-    throw new Error('Failed to classify the expense.')
+    const result = await model.generateContent(prompt)
+    return result.response.text()
+  } catch (error) {
+    const err = error as Error
+    console.error(err.message)
+    throw err
   }
 }
 
-export { classifyExpense }
+const run = async () => {
+  try {
+    const response = await getCategory(prompt)
+    console.log('Response:', response)
+  } catch (error) {
+    console.error('Error:', error)
+  }
+}
+
+run()
