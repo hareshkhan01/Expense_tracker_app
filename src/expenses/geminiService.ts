@@ -1,35 +1,41 @@
-import axios from 'axios'
 import { config } from '../config/config'
-import { HttpError } from 'http-errors'
-if (!config.apiKey) {
-  throw new Error('GEMINI_API_KEY is not set in the environment variables.')
-}
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const classifyExpense = async (expenseDescription: string): Promise<string> => {
-  const prompt = `Categorize the following expense: "${expenseDescription}" into one category such as "Food", "Travel", or "Utilities".`
+const genAi = new GoogleGenerativeAI(config.apiKey as string)
+const model = genAi.getGenerativeModel({ model: 'gemini-1.5-flash' })
+
+
+
+const getExpenseDetails = async (description: string) => {
+  const prompt = `
+    Extract the amount and category from the following expense description: 
+    "${description}"
+
+    - Amount should be extracted as a number.
+    - Category should be one of: "Entertainment", "Food", "Travel", "Utilities", "Shopping", "Other".
+    
+    Respond only with a valid JSON object, without any extra text or formatting:
+    {
+      "amount": 100,
+      "category": "Entertainment"
+    }
+  `
 
   try {
-    const response = await axios.post(
-      'https://generativelanguage.googleapis.com/v1beta2/models/gemini-1.5:generateText',
-      {
-        prompt: { text: prompt },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${config.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-      },
-    )
+    const result = await model.generateContent(prompt)
+    const textResponse = await result.response.text()
 
-    // Extract the generated text from the response
-    const generatedText =
-      response.data?.candidates?.[0]?.output || 'Uncategorized'
-    return generatedText.trim()
-  } catch (error: Error) {
-    console.error('Error classifying expense:', error)
-    throw new Error('Failed to classify the expense.')
+    // Clean up response if necessary
+    const jsonMatch = textResponse.match(/\{[\s\S]*\}/) // Extract JSON only
+    if (!jsonMatch) throw new Error('Invalid JSON response')
+
+    const extractedData = JSON.parse(jsonMatch[0]) // Parse JSON safely
+    return extractedData
+  } catch (error) {
+    console.error('Error:', (error as Error).message)
+    throw error
   }
 }
 
-export { classifyExpense }
+
+export default getExpenseDetails 
