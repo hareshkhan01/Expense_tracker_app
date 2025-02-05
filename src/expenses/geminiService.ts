@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 const genAi = new GoogleGenerativeAI(config.apiKey as string)
 const model = genAi.getGenerativeModel({ model: 'gemini-1.5-flash' })
 
-const description = `i bought a 200 rupee pizza`
+
 
 const getExpenseDetails = async (description: string) => {
   const prompt = `
@@ -37,13 +37,5 @@ const getExpenseDetails = async (description: string) => {
   }
 }
 
-const run = async () => {
-  try {
-    const expenseDetails = await getExpenseDetails(description)
-    console.log('Extracted Expense Details:', expenseDetails)
-  } catch (error) {
-    console.error('Error:', error)
-  }
-}
 
-run()
+export default getExpenseDetails 
