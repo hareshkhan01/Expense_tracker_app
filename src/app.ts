@@ -1,7 +1,7 @@
 import express , {Request, Response, NextFunction} from 'express';
-import createHttpError from 'http-errors';
+//import createHttpError from 'http-errors';
 import globalErrorHandler from "./middlewares/globalErrorHandller";
-import useRouter from './expenses/expenseRouter'
+import useRouter from './user/userRouter';
 
 const app = express()
 app.use(express.json());
@@ -16,7 +16,8 @@ app.get('/', (req : Request, res : Response, next: NextFunction)  => {
 
 })
 
-app.use('/api',useRouter)
+
+app.use('/api/users',useRouter)
 
 //global error handler
 app.use(globalErrorHandler)
