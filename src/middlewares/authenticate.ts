@@ -17,7 +17,7 @@ const authenticate = async(req : Request,res : Response,next : NextFunction) => 
 
     try {
         const isVerified = verify(parsedToken,config.jwtSecret as string)
-         console.log(isVerified);
+         console.log(isVerified.sub);
         const _req = req as AuthRequest; 
         _req.userId = isVerified.sub as string;
         next()

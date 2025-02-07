@@ -5,5 +5,6 @@ const expenseRouter = express.Router();
 //routes
 
 expenseRouter.post('/expenses',authenticate,expenseController.postExpense)
+expenseRouter.get('/allexpenses',authenticate,expenseController.getExpenses)
 
 export default expenseRouter;

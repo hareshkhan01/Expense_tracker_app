@@ -51,16 +51,18 @@ interface CustomRequest extends Request {
 
 
 const expenseController = {
-  // -------------------------------
+
+
   // GET /expenses
   // List all expenses for the current user.
   // Optionally, filter by a fixed category.
-  // -------------------------------
-  getExpenses: async (req: CustomRequest, res: Response):Promise<any> => {
+  
+  getExpenses: async (req: Request, res: Response):Promise<any> => {
     try {
-      const userId = req.user?._id;
+      const _req = req as AuthRequest
+        const userId = _req.userId
      
-      const filter:any = { userId };
+      const filter: any = { userId };
 
       // If a valid category is provided in the query, add it to the filter.
       const selectedCategory = req.query.category;
@@ -85,11 +87,10 @@ const expenseController = {
     }
   },
 
-  // -------------------------------
   // POST /expenses
   // Create a new expense and update the user's total for the category.
-  // -------------------------------
-  postExpense: async (req : CustomRequest, res: Response, next:NextFunction):Promise<any> => {
+  
+  postExpense: async (req : Request, res: Response, next:NextFunction):Promise<any> => {
     try {
       const { category, amount,date } = req.body;
 
@@ -135,45 +136,45 @@ const expenseController = {
   // PUT /expenses/:id
   // Update an existing expense and adjust the user's totals.
   // -------------------------------
-  // updateExpense: async (req, res) => {
-  //   try {
-  //     const userId = req.user._id;
-  //     const expense = await Expense.findOne({ _id: req.params.id, userId });
-  //     if (!expense) {
-  //       return res.status(404).send('Expense not found.');
-  //     }
+  updateExpense: async (req, res) => {
+    try {
+      const userId = req.user._id;
+      const expense = await Expense.findOne({ _id: req.params.id, userId });
+      if (!expense) {
+        return res.status(404).send('Expense not found.');
+      }
 
-  //     // Store the old category and amount.
-  //     const oldCategory = expense.category;
-  //     const oldAmount = expense.amount;
+      // Store the old category and amount.
+      const oldCategory = expense.category;
+      const oldAmount = expense.amount;
 
-  //     // Get new data from the request body.
-  //     const { category, amount, description, date } = req.body;
-  //     if (!FIXED_CATEGORIES.includes(category)) {
-  //       return res.status(400).send('Invalid category.');
-  //     }
+      // Get new data from the request body.
+      const { category, amount, description, date } = req.body;
+      if (!FIXED_CATEGORIES.includes(category)) {
+        return res.status(400).send('Invalid category.');
+      }
 
-  //     // Update the expense record.
-  //     expense.category = category;
-  //     expense.amount = Number(amount);
-  //     expense.description = description;
-  //     expense.date = date ? new Date(date) : expense.date;
-  //     await expense.save();
+      // Update the expense record.
+      expense.category = category;
+      expense.amount = Number(amount);
+      expense.description = description;
+      expense.date = date ? new Date(date) : expense.date;
+      await expense.save();
 
-  //     // Adjust the user's totals:
-  //     // 1. Subtract the old amount from the previous category total.
-  //     const oldField = `total${oldCategory.charAt(0).toUpperCase() + oldCategory.slice(1)}`;
-  //     await User.findByIdAndUpdate(userId, { $inc: { [oldField]: -oldAmount } });
-  //     // 2. Add the new amount to the new category total.
-  //     const newField = `total${category.charAt(0).toUpperCase() + category.slice(1)}`;
-  //     await User.findByIdAndUpdate(userId, { $inc: { [newField]: Number(amount) } });
+      // Adjust the user's totals:
+      // 1. Subtract the old amount from the previous category total.
+      const oldField = `total${oldCategory.charAt(0).toUpperCase() + oldCategory.slice(1)}`;
+      await User.findByIdAndUpdate(userId, { $inc: { [oldField]: -oldAmount } });
+      // 2. Add the new amount to the new category total.
+      const newField = `total${category.charAt(0).toUpperCase() + category.slice(1)}`;
+      await User.findByIdAndUpdate(userId, { $inc: { [newField]: Number(amount) } });
 
-  //     return res.redirect('/expenses');
-  //   } catch (error) {
-  //     console.error('Error updating expense:', error);
-  //     return res.status(500).send('Server Error');
-  //   }
-  // },
+      return res.redirect('/expenses');
+    } catch (error) {
+      console.error('Error updating expense:', error);
+      return res.status(500).send('Server Error');
+    }
+  },
 
   // -------------------------------
   // DELETE /expenses/:id
