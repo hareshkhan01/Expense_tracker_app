@@ -12,7 +12,7 @@ const getExpenseDetails = async (description: string) => {
     "${description}"
 
     - Amount should be extracted as a number.
-    - Category should be one of: "Entertainment", "Food", "Travel", "Utilities", "Shopping", "Other".
+    - Category should be one of: "Entertainment", "Food", "Travel", "Utilities", "Shopping", "Others".
     
     Respond only with a valid JSON object, without any extra text or formatting:
     {

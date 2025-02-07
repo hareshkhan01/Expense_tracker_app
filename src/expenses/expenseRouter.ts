@@ -1,8 +1,9 @@
 import express from "express";
-import { addExpense } from "./expenseController";
-const useRouter = express.Router();
+import { expenseController } from "./expenseController";
+import authenticate from "../middlewares/authenticate";
+const expenseRouter = express.Router();
 //routes
 
-useRouter.post('/expenses',addExpense)
+expenseRouter.post('/expenses',authenticate,expenseController.postExpense)
 
-export default useRouter;
+export default expenseRouter;

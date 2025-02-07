@@ -5,6 +5,12 @@ const userSchema = new mongoose.Schema({
     name : {type : String , required : true , unique : true},
     email : {type : String , required : true , unique : true},
     password : {type : String , required : true},
+    totalFood: { type: Number, default: 0 },
+    totalTransport: { type: Number, default: 0 },
+    totalUtilities: { type: Number, default: 0 },
+    totalEntertainment: { type: Number, default: 0 },
+    totalShopping: { type: Number, default: 0 },
+    totalOthers:{type : Number , default : 0}
    
 },{timestamps : true}) 
 

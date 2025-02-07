@@ -11,7 +11,7 @@ const createUser = async (
     res:Response,
     next:NextFunction) => {
 
-        const {name, email, password} = req.body
+        const {name, email, password } = req.body
 
         //validate all fields are filled
         if(!name || !email || !password){
@@ -42,7 +42,13 @@ const createUser = async (
             newUser = await userModel.create({
             name,
             email,
-            password : hashedPassword
+            password : hashedPassword,
+            totalFood:0,
+            totalTransport:0,
+            totalUtilities:0,
+            totalEntertainment:0,
+            totalShopping:0,
+            totalOthers:0
 })
         } catch (error) {
             return next(createHttpError(500,"error while creating new user"));
@@ -122,7 +128,7 @@ try {
         )
         
             res.json({token});
-    } catch (error) {
+    } catch (err) {
         return next(createHttpError(500,"error while creating token"));
     }
 
