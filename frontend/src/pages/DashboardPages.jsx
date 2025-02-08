@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SimpleAreaChart from "../components/SimpleAreaChart";
@@ -7,9 +6,10 @@ import ExpenseCard from "../components/ExpenseCard";
 
 const Dashboard = () => {
   return (
-    <div className="flex h-full w-full bg-gray-900 text-white">
+    <div className="flex flex-col h-screen w-full bg-gray-900 text-white overflow-x-hidden overflow-y-auto">
       {/* Main Content */}
-      <div className="flex-1 p-6">
+      <div className="flex-1 p-6 max-w-screen mx-auto">
+        
         {/* Navbar */}
         <header className="bg-white/10 shadow-lg p-4 rounded-lg flex justify-between items-center backdrop-blur-md">
           <h2 className="text-2xl font-bold tracking-wide">Dashboard</h2>
@@ -19,7 +19,7 @@ const Dashboard = () => {
         </header>
 
         {/* Dashboard Content */}
-        <div className="mt-8 grid grid-cols-3 gap-6">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Stats Cards */}
           <Card className="bg-gray-800 shadow-lg rounded-xl p-4">
             <CardHeader>
@@ -32,8 +32,8 @@ const Dashboard = () => {
         </div>
 
         {/* Charts */}
-        <div className="mt-8 grid grid-cols-3 gap-6">
-          <div className="col-span-2">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="md:col-span-2">
             <Card className="bg-gray-800 shadow-md rounded-lg p-4">
               <CardHeader>
                 <CardTitle className="text-gray-300">Expense Trends</CardTitle>
@@ -43,7 +43,7 @@ const Dashboard = () => {
               </CardContent>
             </Card>
           </div>
-          <div className="col-span-1">
+          <div className="md:col-span-1">
             <Card className="bg-gray-800 shadow-md rounded-lg p-4">
               <CardHeader>
                 <CardTitle className="text-gray-300">Expense Distribution</CardTitle>
@@ -55,10 +55,16 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Expense List */}
-        <div className="mt-8">
+        {/* Expense List - Scrollable */}
+        <div className="mt-8 flex flex-wrap gap-3 ">
+          <ExpenseCard />
+          <ExpenseCard />
+          <ExpenseCard />
+          <ExpenseCard />
+          <ExpenseCard />
           <ExpenseCard />
         </div>
+
       </div>
     </div>
   );
