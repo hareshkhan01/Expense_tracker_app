@@ -5,7 +5,7 @@ import SimplePieChart from '../components/PieChart'
 import ExpenseCard from '../components/ExpenseCard'
 import { FaArrowLeft } from "react-icons/fa6";
 import { useState, useEffect } from 'react'
-
+import { Link } from 'react-router-dom'
 
 const Dashboard = () => {
   const [expenses, setExpenses] = useState([])
@@ -37,10 +37,10 @@ const Dashboard = () => {
           <div className='flex gap-2'>
             <span>
               {/* After routet setup this will replced with Link */}
-              <a href='/' className="bg-gray-800 hover:bg-gray-700 inline-flex items-center gap-2 px-4 py-2 rounded-lg">
+              <Link to='/' className="bg-gray-800 hover:bg-gray-700 inline-flex items-center gap-2 px-4 py-2 rounded-lg">
                 <FaArrowLeft />
                 Back
-              </a>
+              </Link>
             </span>
             <h2 className="text-2xl font-bold tracking-wide">Dashboard</h2>
           </div>

@@ -5,8 +5,8 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center border-b border-gray-700 pb-8 mb-8">
           {/* Branding */}
           <div className="mb-4 md:mb-0">
-            <h2 className="text-2xl font-bold text-white">YourBrand</h2>
-            <p className="mt-2 text-sm text-gray-400">Simplifying the future</p>
+            <h2 className="text-2xl font-bold text-white">Expense</h2>
+            <p className="mt-2 text-sm text-gray-400">Simplifying your expenses</p>
           </div>
 
           {/* Social Links */}
@@ -32,7 +32,7 @@ const Footer = () => {
         {/* Copyright and Links */}
         <div className="flex flex-col md:flex-row justify-between items-center text-sm">
           <div className="text-gray-500 mb-2 md:mb-0">
-            © {new Date().getFullYear()} YourBrand. All rights reserved.
+            © {new Date().getFullYear()} Expense. All rights reserved.
           </div>
           <div className="flex space-x-4">
             <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Privacy Policy</a>
