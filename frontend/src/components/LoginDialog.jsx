@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { useRef } from 'react'
+import { Loader } from 'lucide-react' 
 import {
   Dialog,
   DialogContent,
@@ -72,7 +73,10 @@ export function LoginDialog() {
             placeholder="Password"
             required
           />
-          <Button type="submit">Login</Button>
+          <Button type="submit">
+          <Loader />
+            Login
+            </Button>
         </form>
       </DialogContent>
     </Dialog>
