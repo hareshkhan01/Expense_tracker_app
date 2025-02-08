@@ -15,21 +15,33 @@
   "license": "ISC",
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
+    "@tailwindcss/vite": "^4.0.4",
     "@tanstack/react-query": "^5.66.0",
     "@types/node": "^22.13.1",
+    "add": "^2.0.6",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dashboard": "^0.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "googleapis": "^144.0.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.475.0",
     "moment": "^2.30.1",
     "mongoose": "^8.9.7",
     "nodemon": "^3.1.9",
+    "rechart": "^0.0.1",
+    "recharts": "^2.15.1",
+    "shadcn": "^2.3.0",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
@@ -41,9 +53,20 @@
     "@types/http-errors": "^2.0.4",
     "@types/jsonwebtoken": "^9.0.8",
     "@types/mongoose": "^5.11.96",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9.19.0",
     "globals": "^15.14.0",
+    "postcss": "^8.5.1",
     "prettier": "^3.4.2",
+    "tailwindcss": "^3.4.1",
     "typescript-eslint": "^8.23.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hareshkhan01/Expense_tracker_app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hareshkhan01/Expense_tracker_app/issues"
+  },
+  "homepage": "https://github.com/hareshkhan01/Expense_tracker_app#readme"
 }
