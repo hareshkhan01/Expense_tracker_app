@@ -7,7 +7,7 @@ import ExpenseCard from '../components/ExpenseCard'
 const Dashboard = () => {
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-full bg-gray-900">
       {/* Main Content */}
       <div className="flex-1 bg-gray-100 p-6">
         {/* Navbar */}

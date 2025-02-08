@@ -7,6 +7,7 @@ import LoginDialog from "./LoginDialog";
 import RegisterDialog from "./RegisterDialog";
 import { useState, useEffect } from "react";
 
+
 export default function Navbar() {
 
   const [isScrolled, setIsScrolled] = useState(false);
