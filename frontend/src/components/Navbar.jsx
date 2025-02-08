@@ -5,10 +5,30 @@ import { GoHomeFill } from "react-icons/go";
 import { RxDashboard } from "react-icons/rx";
 import LoginDialog from "./LoginDialog";
 import RegisterDialog from "./RegisterDialog";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
   return (
-    <nav className="sticky top-0 z-50 ">
+    <nav className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
+        isScrolled ? "bg-black shadow-md" : "bg-transparent"
+      }`}>
       <div className="flex h-20 lg:w-3/5 w-full m-auto shrink-0 items-center px-4 md:px-6 ">
         <Sheet>
           <SheetTrigger asChild>
@@ -26,10 +46,8 @@ export default function Navbar() {
                 </a>
               </div>
               <div className="flex gap-2 items-center">
-                <Buthrefn className="bg-white text-black border">
-                  Login
-                </Buthrefn>
-                <Buthrefn>Register</Buthrefn>
+              <LoginDialog />
+              <RegisterDialog/>
               </div>
             </div>
           </SheetTrigger>
