@@ -3,8 +3,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SimpleAreaChart from "../components/SimpleAreaChart";
 import SimplePieChart from "../components/PieChart";
 import ExpenseCard from "../components/ExpenseCard";
+import { useState, useEffect } from "react";
 
 const Dashboard = () => {
+
+  const [expenses, setExpenses] = useState([]);
+
+// Here the expenses will be fetched from the backend
+/*
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      try {
+      } catch (error) {
+        
+      }
+    };
+  
+    fetchExpenses();
+  }, []);
+  */
+
+  const getTotalExpenseAmount = () => {
+    return expenses.reduce((total, expense) => total + expense.amount, 0);
+  }
   return (
     <div className="flex flex-col h-screen w-full bg-gray-900 text-white overflow-x-hidden overflow-y-auto">
       {/* Main Content */}
@@ -26,7 +47,7 @@ const Dashboard = () => {
               <CardTitle className="text-gray-300">Total Expenses</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-4xl font-extrabold text-orange-400">$1,254</p>
+              <p className="text-4xl font-extrabold text-orange-400">${getTotalExpenseAmount}</p>
             </CardContent>
           </Card>
         </div>
@@ -39,7 +60,7 @@ const Dashboard = () => {
                 <CardTitle className="text-gray-300">Expense Trends</CardTitle>
               </CardHeader>
               <CardContent>
-                <SimpleAreaChart />
+                <SimpleAreaChart expenses={expenses}/>
               </CardContent>
             </Card>
           </div>
@@ -49,7 +70,7 @@ const Dashboard = () => {
                 <CardTitle className="text-gray-300">Expense Distribution</CardTitle>
               </CardHeader>
               <CardContent>
-                <SimplePieChart />
+                <SimplePieChart expenses={expenses}/>
               </CardContent>
             </Card>
           </div>
@@ -57,12 +78,9 @@ const Dashboard = () => {
 
         {/* Expense List - Scrollable */}
         <div className="mt-8 flex flex-wrap gap-3 ">
-          <ExpenseCard />
-          <ExpenseCard />
-          <ExpenseCard />
-          <ExpenseCard />
-          <ExpenseCard />
-          <ExpenseCard />
+          {expenses.map((expense,index) => (
+            <ExpenseCard key={index} expense={expense}/>
+          ))}
         </div>
 
       </div>
