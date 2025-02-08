@@ -14,7 +14,9 @@ const router = createBrowserRouter([
     {
         path:'/addExpense',
         element: <AddExpensePage/>
-    }
+    },
+    
+       
   
 ])
 

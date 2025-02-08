@@ -29,7 +29,7 @@ export function LoginDialog() {
             <Input
               id="fullname"
               className="col-span-4"
-              placeholder="First Name"
+              placeholder="Full Name"
             />
           </div>
       
