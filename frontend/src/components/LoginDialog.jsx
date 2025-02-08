@@ -1,20 +1,53 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
+import { useRef } from 'react'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { useMutation} from '@tanstack/react-query'
+import { logIn } from '@/http/api'
+import {useNavigate } from 'react-router-dom'
+
 
 export function LoginDialog() {
+  const navigate = useNavigate()
+  const emailRef = useRef(null)
+  const passwordRef = useRef(null)
+  //mutation
+  const mutation = useMutation({
+    mutationFn: logIn,
+    onSuccess: () => {
+      // Invalidate and refetch
+      console.log('login success');
+      //redirect to dashboard
+      navigate('/dashboard/home')
+
+
+    },
+  })
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault() // Prevents page refresh
+    const email = emailRef.current?.value
+    const password = passwordRef.current?.value
+    console.log({ email, password })
+    if (!email || !password) {
+      return alert('Please enter email and password');
+  }
+  mutation.mutate({email,password})
+
+
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-      <Button className="bg-white text-black border">Login</Button>
+        <Button className="bg-white text-black border">Login</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -23,23 +56,24 @@ export function LoginDialog() {
             Enter Login Credentials to Continue
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Input
-              id="email"
-              className="col-span-4"
-              placeholder="Email eg: example@gmail.com"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Input
-              id="password"
-              className="col-span-4"
-              placeholder="Password"
-            />
-          </div>
+        <form onSubmit={handleLoginSubmit} className="grid gap-4 py-4">
+          <Input
+            ref={emailRef}
+            id="email"
+            className="col-span-4"
+            placeholder="Email eg: example@gmail.com"
+            required
+          />
+          <Input
+            ref={passwordRef}
+            id="password"
+            type="password"
+            className="col-span-4"
+            placeholder="Password"
+            required
+          />
           <Button type="submit">Login</Button>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   )

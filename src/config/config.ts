@@ -6,7 +6,8 @@ const _config = {
     apiKey: process.env.API_KEY || '',
     mongoString: process.env.MONGO_STRING || '',
     nodeEnv: process.env.NODE_ENV || '',
-    jwtSecret : process.env.JWT_SECRET
+    jwtSecret : process.env.JWT_SECRET,
+    frontendURL : process.env.FRONTEND_URL
 };
 
 export const config = Object.freeze(_config);
