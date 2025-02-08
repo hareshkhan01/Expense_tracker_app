@@ -5,9 +5,7 @@ import Dashboard from './pages/DashboardPages';
 export default function App() {
   return (
     <div>
-      {/* <HomePage /> */}
-      <Dashboard />
-      {/* <AddExpensePage/> */}
+      
     </div>
   );
 }
