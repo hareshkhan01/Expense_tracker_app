@@ -10,16 +10,16 @@ import {
 } from "@/components/ui/card";
 import { MdDelete } from "react-icons/md";
 
-export function ExpenseCard({ className, ...props }) {
+export function ExpenseCard({expense}) {
   return (
-    <Card className={cn("w-[380px] bg-gray-800 text-white shadow-lg rounded-xl", className)} {...props}>
+    <Card className="w-[380px] bg-gray-800 text-white shadow-lg rounded-xl" >
       {/* Header */}
       <CardHeader>
         <CardTitle className="text-lg font-semibold text-gray-200">
           Expense Title
         </CardTitle>
         <CardDescription className="text-gray-400">
-          Expense Description Will be here
+          {expense.description}
         </CardDescription>
       </CardHeader>
 
@@ -28,15 +28,15 @@ export function ExpenseCard({ className, ...props }) {
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <span className="text-gray-400">Amount:</span>
-            <span className="text-lg font-bold text-orange-400">$120</span>
+            <span className="text-lg font-bold text-orange-400">${expense.amount}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-400">Date:</span>
-            <span className="text-gray-300">Feb 8, 2025</span>
+            <span className="text-gray-300">{expense.date}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-400">Category:</span>
-            <span className="text-gray-300">Food & Dining</span>
+            <span className="text-gray-300">{expense.category}</span>
           </div>
         </div>
       </CardContent>
