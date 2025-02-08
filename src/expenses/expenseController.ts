@@ -7,6 +7,7 @@ import moment from 'moment';
 import createHttpError from 'http-errors';
 import userModel from '../user/userModel';
 import { AuthRequest } from '../middlewares/authenticate';
+import { create } from 'ts-node';
 
 
 
@@ -57,7 +58,7 @@ const expenseController = {
   // List all expenses for the current user.
   // Optionally, filter by a fixed category.
   
-  getExpenses: async (req: Request, res: Response):Promise<any> => {
+  getExpenses: async (req: Request, res: Response,  next: NextFunction):Promise<any> => {
     try {
       const _req = req as AuthRequest
         const userId = _req.userId
@@ -83,7 +84,7 @@ const expenseController = {
       return res.json({ expenses,userId, fixedCategories: FIXED_CATEGORIES });
     } catch (error) {
       console.error('Error fetching expenses:', error);
-      return res.status(500).send('Server Error');
+      return next(createHttpError(500,"error in fetching expenses"))
     }
   },
 
@@ -132,16 +133,19 @@ const expenseController = {
     }
   },
 
-  // -------------------------------
   // PUT /expenses/:id
   // Update an existing expense and adjust the user's totals.
-  // -------------------------------
-  updateExpense: async (req, res) => {
+
+//issues in updating
+
+  updateExpense: async (req: Request, res: Response, next:NextFunction):Promise<any> => {
     try {
-      const userId = req.user._id;
+      const _req = req as AuthRequest
+      const userId = _req.userId
+ 
       const expense = await Expense.findOne({ _id: req.params.id, userId });
       if (!expense) {
-        return res.status(404).send('Expense not found.');
+        return next(createHttpError(404,'expense not found'))
       }
 
       // Store the old category and amount.
@@ -149,58 +153,65 @@ const expenseController = {
       const oldAmount = expense.amount;
 
       // Get new data from the request body.
-      const { category, amount, description, date } = req.body;
+      const { category, amount,date } = req.body;
       if (!FIXED_CATEGORIES.includes(category)) {
-        return res.status(400).send('Invalid category.');
+        return next(createHttpError(400, 'Invalid category.'));
       }
 
       // Update the expense record.
       expense.category = category;
       expense.amount = Number(amount);
-      expense.description = description;
       expense.date = date ? new Date(date) : expense.date;
       await expense.save();
 
       // Adjust the user's totals:
       // 1. Subtract the old amount from the previous category total.
       const oldField = `total${oldCategory.charAt(0).toUpperCase() + oldCategory.slice(1)}`;
-      await User.findByIdAndUpdate(userId, { $inc: { [oldField]: -oldAmount } });
+      await userModel.findByIdAndUpdate(userId, { $inc: { [oldField]: -oldAmount } });
       // 2. Add the new amount to the new category total.
       const newField = `total${category.charAt(0).toUpperCase() + category.slice(1)}`;
-      await User.findByIdAndUpdate(userId, { $inc: { [newField]: Number(amount) } });
+      await userModel.findByIdAndUpdate(userId, { $inc: { [newField]: Number(amount) } });
+      const userTotals = await userModel.findById(userId);
+      console.log(userTotals);
 
-      return res.redirect('/expenses');
+
+
+      return res.status(200).json({ message: 'Expense updated successfully' });
+     
+      //return res.redirect('/expenses');
     } catch (error) {
       console.error('Error updating expense:', error);
-      return res.status(500).send('Server Error');
+      return next(createHttpError(500,'Server Error'))
     }
   },
 
-  // -------------------------------
   // DELETE /expenses/:id
   // Delete an expense and update the user's total for that category.
-  // -------------------------------
-  // deleteExpense: async (req, res) => {
-  //   try {
-  //     const userId = req.user._id;
-  //     const expense = await Expense.findOne({ _id: req.params.id, userId });
-  //     if (!expense) {
-  //       return res.status(404).send('Expense not found.');
-  //     }
+  deleteExpense: async (req: Request, res: Response, next:NextFunction):Promise<any> => {
+    try {
+      
+      const _req = req as AuthRequest
+      const userId = _req.userId
 
-  //     // Build the field name and subtract the expense amount from the user's total.
-  //     const fieldName = `total${expense.category.charAt(0).toUpperCase() + expense.category.slice(1)}`;
-  //     await User.findByIdAndUpdate(userId, { $inc: { [fieldName]: -expense.amount } });
+      const expense = await Expense.findOne({ _id: req.params.id, userId });
+      if (!expense) {
+        return next(createHttpError(404,"Expense not found"))
+      }
 
-  //     // Remove the expense record.
-  //     await expense.remove();
+      // Build the field name and subtract the expense amount from the user's total.
+      const fieldName = `total${expense.category.charAt(0).toUpperCase() + expense.category.slice(1)}`;
+      await userModel.findByIdAndUpdate(userId, { $inc: { [fieldName]: -expense.amount } });
 
-  //     return res.redirect('/expenses');
-  //   } catch (error) {
-  //     console.error('Error deleting expense:', error);
-  //     return res.status(500).send('Server Error');
-  //   }
-  // }
+      // Remove the expense record.
+      await expense.deleteOne();
+
+      return res.status(200).json({ message: 'Expense deleted successfully' });
+      //return res.redirect('/expenses');
+    } catch (error) {
+      console.error('Error deleting expense:', error);
+      return next(createHttpError(500,'Server Error'))
+    }
+  }
 };
 
 

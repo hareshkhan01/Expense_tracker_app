@@ -6,7 +6,6 @@ import { Schema, model, Document } from 'mongoose';
 export interface IExpense extends Document {
   userId: string;
   amount: number;
-  description: string;
   date: Date;
   category: string;
 }
@@ -15,7 +14,7 @@ const expenseSchema = new Schema<IExpense>(
   {
     userId: { type: String, required: true },
     amount: { type: Number, required: true, default: 0 },
-    date: { type: Date, required: true },
+    date: { type: Date, required: true , default: Date.now },
     category: { type: String, required: true }
   },
   {

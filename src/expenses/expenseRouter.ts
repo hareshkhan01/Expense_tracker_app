@@ -6,5 +6,7 @@ const expenseRouter = express.Router();
 
 expenseRouter.post('/expenses',authenticate,expenseController.postExpense)
 expenseRouter.get('/allexpenses',authenticate,expenseController.getExpenses)
+expenseRouter.put('/expenses/:id',authenticate,expenseController.updateExpense)
+expenseRouter.delete('/expenses/:id',authenticate,expenseController.deleteExpense)
 
 export default expenseRouter;
