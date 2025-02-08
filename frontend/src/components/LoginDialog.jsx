@@ -9,18 +9,39 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { useMutation} from '@tanstack/react-query'
+import { logIn } from '@/http/api'
+import {useNavigate } from 'react-router-dom'
+
 
 export function LoginDialog() {
+  const navigate = useNavigate()
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
+  //mutation
+  const mutation = useMutation({
+    mutationFn: logIn,
+    onSuccess: () => {
+      // Invalidate and refetch
+      console.log('login success');
+      //redirect to dashboard
+      navigate('/dashboard/home')
+
+
+    },
+  })
 
   const handleLoginSubmit = (e) => {
     e.preventDefault() // Prevents page refresh
     const email = emailRef.current?.value
     const password = passwordRef.current?.value
     console.log({ email, password })
+    if (!email || !password) {
+      return alert('Please enter email and password');
+  }
+  mutation.mutate({email,password})
 
-    
+
   }
 
   return (
