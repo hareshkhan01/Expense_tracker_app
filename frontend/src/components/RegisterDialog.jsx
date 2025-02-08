@@ -27,9 +27,16 @@ export function LoginDialog() {
         <div className="grid gap-4 py-4">
         <div className="grid grid-cols-4 items-center gap-4">
             <Input
-              id="username"
+              id="firstname"
               className="col-span-4"
-              placeholder="Name eg: John Doe"
+              placeholder="First Name"
+            />
+          </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+            <Input
+              id="lastname"
+              className="col-span-4"
+              placeholder="Last Name"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
