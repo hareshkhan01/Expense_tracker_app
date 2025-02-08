@@ -5,7 +5,7 @@ const genAi = new GoogleGenerativeAI(config.apiKey as string)
 const model = genAi.getGenerativeModel({ model: 'gemini-1.5-flash' })
 
 
-
+//const description :string = "buy a new iphone 16 90k"
 const getExpenseDetails = async (description: string) => {
   const prompt = `
     Extract the amount and category from the following expense description: 
@@ -37,5 +37,8 @@ const getExpenseDetails = async (description: string) => {
   }
 }
 
+// //getExpenseDetails(description)
+//   .then((expenseDetails) => console.log(expenseDetails))
+//   .catch((error) => console.error('Error:', error))
 
 export default getExpenseDetails 

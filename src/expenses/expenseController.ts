@@ -93,8 +93,8 @@ const expenseController = {
   
   postExpense: async (req : Request, res: Response, next:NextFunction):Promise<any> => {
     try {
-      const { category, amount,date } = req.body;
-
+      const { amount,category} = req.body;
+      const date = Date.now()
       //auth needed
         const _req = req as AuthRequest
         const userId = _req.userId
