@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import ExpenseCard from '@/components/ExpenseCard';
 
 const AddExpensePage = () => {
+    
   return (
     <div className="flex flex-col h-screen w-full bg-gray-900 text-white p-6">
       {/* Input & Save Button */}
