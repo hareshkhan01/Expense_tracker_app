@@ -1,32 +1,53 @@
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { useState, useEffect } from "react";
 
-const data = [
-  { month: "January", expense: 186 },
-  { month: "February", expense: 305 },
-  { month: "March", expense: 237 },
-  { month: "April", expense: 73 },
-  { month: "May", expense: 2000 },
-  { month: "June", expense: 5000 },
-  { month: "July", expense: 7000},
-  { month: "August", expense: 1000 },
-  { month: "September", expense: 2000 },
-  { month: "October", expense: 214 },
-  { month: "November", expense: 6000 },
-  { month: "December", expense: 700 },
-]
+const SimpleAreaChart = ({ expenses }) => {
+  const [monthWiseExpense, setMonthWiseExpense] = useState({
+    January: 0,
+    February: 0,
+    March: 0,
+    April: 0,
+    May: 0,
+    June: 0,
+    July: 0,
+    August: 0,
+    September: 0,
+    October: 0,
+    November: 0,
+    December: 0,
+  });
 
-const SimpleAreaChart= () => {
+  useEffect(() => {
+    const updatedExpenses = { ...monthWiseExpense };
+
+    expenses.forEach((expense) => {
+      const date = new Date(expense.date);
+      const monthIndex = date.getMonth(); // Get month index (0-11)
+      const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+      const month = monthNames[monthIndex];
+      const amount = parseFloat(expense.amount);
+
+      updatedExpenses[month] += amount;
+    });
+
+    setMonthWiseExpense(updatedExpenses);
+  }, [expenses]);
+
+  // Convert monthWiseExpense to an array for Recharts
+  const chartData = Object.keys(monthWiseExpense).map((month) => ({
+    month,
+    expense: monthWiseExpense[month],
+  }));
+
   return (
     <div style={{ width: "100%", height: 300 }}>
       <ResponsiveContainer>
         <AreaChart
-          data={data}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
-          }}
+          data={chartData}
+          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="month" />
@@ -36,8 +57,7 @@ const SimpleAreaChart= () => {
         </AreaChart>
       </ResponsiveContainer>
     </div>
-  )
-}
+  );
+};
 
-export default SimpleAreaChart
-
+export default SimpleAreaChart;

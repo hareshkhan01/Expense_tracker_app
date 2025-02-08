@@ -2,9 +2,24 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import ExpenseCard from '@/components/ExpenseCard';
+import { useState,useEffect } from 'react';
 
 const AddExpensePage = () => {
-    
+    const [description,setDescription] = useState("");
+    const [expenses,setExpenses] = useState([]);
+
+
+    // Here the add expense logic is to be implemented
+    /*
+    const addExpense=()=>{
+        try{
+
+        }
+        catch(error){
+            
+        }
+    }*/
+
   return (
     <div className="flex flex-col h-screen w-full bg-gray-900 text-white p-6">
       {/* Input & Save Button */}
@@ -12,6 +27,8 @@ const AddExpensePage = () => {
         <Input
           className="flex-1 p-2 rounded-md bg-gray-700 text-white placeholder-gray-400"
           placeholder="Enter Expense Description..."
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
         <Button className="bg-orange-600 hover:bg-orange-700">Save</Button>
       </div>
@@ -20,14 +37,9 @@ const AddExpensePage = () => {
       <div className="mt-6">
         <h1 className="text-2xl font-bold">Recently Added Expenses</h1>
         <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-4">
-          <ExpenseCard />
-          <ExpenseCard />
-          <ExpenseCard />
-          <ExpenseCard />
-          <ExpenseCard />
-          <ExpenseCard />
-          <ExpenseCard />
-          <ExpenseCard />
+          {expenses.slice(0, 8).map((expense) => (
+              <ExpenseCard key={expense.id} expense={expense} />
+          ))}
         </div>
       </div>
     </div>

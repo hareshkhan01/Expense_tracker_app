@@ -6,6 +6,7 @@ import ExpenseCard from '../components/ExpenseCard'
 import { FaArrowLeft } from "react-icons/fa6";
 import { useState, useEffect } from 'react'
 
+
 const Dashboard = () => {
   const [expenses, setExpenses] = useState([])
 
@@ -71,7 +72,7 @@ const Dashboard = () => {
                 <CardTitle className="text-gray-300">Expense Trends</CardTitle>
               </CardHeader>
               <CardContent>
-                <SimpleAreaChart expenses={expenses} />{' '}
+                <SimpleAreaChart expenses={expenses} />
                 {/*Pass the expenses data as props*/}
               </CardContent>
             </Card>
@@ -84,7 +85,7 @@ const Dashboard = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <SimplePieChart expenses={expenses} />{' '}
+                <SimplePieChart expenses={expenses} />
                 {/*Pass the expenses data as props*/}
               </CardContent>
             </Card>
