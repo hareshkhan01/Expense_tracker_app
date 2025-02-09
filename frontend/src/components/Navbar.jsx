@@ -1,44 +1,45 @@
-import { GiExpense } from "react-icons/gi";
-import { GoHomeFill } from "react-icons/go";
-import { RxDashboard } from "react-icons/rx";
-import LoginDialog from "./LoginDialog";
-import RegisterDialog from "./RegisterDialog";
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import useTokenStore from "../store";
-import { Button } from "./ui/button";
-import { useNavigate } from "react-router-dom";
+import { GiExpense } from 'react-icons/gi'
+import { GoHomeFill } from 'react-icons/go'
+import { RxDashboard } from 'react-icons/rx'
+import LoginDialog from './LoginDialog'
+import RegisterDialog from './RegisterDialog'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import useTokenStore from '../store'
+import { Button } from './ui/button'
+import { useNavigate } from 'react-router-dom'
 
 export default function Navbar() {
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
-  const [isScrolled, setIsScrolled] = useState(false);
-  const {token,setToken}=useTokenStore()
+  const [isScrolled, setIsScrolled] = useState(false)
+  const { token, setToken } = useTokenStore()
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
-        setIsScrolled(true);
+        setIsScrolled(true)
       } else {
-        setIsScrolled(false);
+        setIsScrolled(false)
       }
-    };
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
-  const logout=()=>{
-    setToken("")
-    navigate("/")
+  const logout = () => {
+    setToken('')
+    navigate('/')
   }
 
   return (
-    <nav className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
-        isScrolled ? "bg-black shadow-md" : "bg-transparent"
-      }`}>
+    <nav
+      className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
+        isScrolled ? 'bg-black shadow-md' : 'bg-transparent'
+      }`}
+    >
       <div className="flex h-20 lg:w-3/5 w-full m-auto shrink-0 items-center px-4 md:px-6 ">
-        
         <div className="flex flex-1 items-center justify-between">
           <Link to="/" className="mr-6  lg:flex">
             <span className="text-3xl font-bold text-white">Expense</span>
@@ -69,15 +70,19 @@ export default function Navbar() {
             </Link>
           </div>
           <div className=" lg:flex gap-2 items-center">
-            {token===""?<><LoginDialog />
-            <RegisterDialog/></>:<Button onClick={()=>logout()} variant="destructive" className="bg-red-600 hover:bg-red-700">
-                        Logout
-                      </Button>}
+            <div>
+              {token ? (
+                <Button onClick={logout}>Logout</Button>
+              ) : (
+                <div className="flex gap-2">
+                  <LoginDialog />
+                  <RegisterDialog />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
     </nav>
-  );
+  )
 }
-
-

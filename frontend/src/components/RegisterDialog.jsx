@@ -1,10 +1,8 @@
 import { Button } from '@/components/ui/button'
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -17,7 +15,7 @@ import { createUser } from '../http/api'
 import { useNavigate } from 'react-router-dom'
 import useTokenStore from '../store'
 
-export function LoginDialog() {
+export function RegisterDialog() {
   const navigate = useNavigate()
 
   const nameRef = useRef(null)
@@ -55,7 +53,6 @@ export function LoginDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button className="bg-orange-600">Register</Button>
-        <Button className="bg-orange-600">Register</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -78,7 +75,6 @@ export function LoginDialog() {
           <div className="grid grid-cols-4 items-center gap-4">
             <Input
               ref={emailRef}
-              ref={emailRef}
               id="email"
               className="col-span-4"
               placeholder="Email eg: example@gmail.com"
@@ -99,4 +95,4 @@ export function LoginDialog() {
   )
 }
 
-export default LoginDialog
+export default RegisterDialog
