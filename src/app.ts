@@ -6,16 +6,16 @@ import expenseRouter from './expenses/expenseRouter'
 import cors from 'cors'
 import { config } from './config/config'
 
-
-
 const app = express()
 
-app.use(cors(
-    {
-        origin: config.frontendURL}
-))
+app.use(
+  cors({
+    origin: config.frontendURL,
+  }),
+)
 
-app.use(express.json())
+app.use(express.json()); // ✅ This is necessary to parse JSON request bodies
+app.use(express.urlencoded({ extended: true }));
 
 //routes
 

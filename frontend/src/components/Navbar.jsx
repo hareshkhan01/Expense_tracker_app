@@ -5,11 +5,14 @@ import LoginDialog from "./LoginDialog";
 import RegisterDialog from "./RegisterDialog";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import useTokenStore from "../store";
+import { Button } from "./ui/button";
 
 
 export default function Navbar() {
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const token=useTokenStore(state=>state.token)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,8 +64,10 @@ export default function Navbar() {
             </Link>
           </div>
           <div className=" lg:flex gap-2 items-center">
-            <LoginDialog />
-            <RegisterDialog/>
+            {!token?<><LoginDialog />
+            <RegisterDialog/></>:<Button variant="destructive" className="bg-red-600 hover:bg-red-700">
+                        Logout
+                      </Button>}
           </div>
         </div>
       </div>

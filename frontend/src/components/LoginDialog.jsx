@@ -13,19 +13,25 @@ import { Input } from '@/components/ui/input'
 import { useMutation} from '@tanstack/react-query'
 import { logIn } from '@/http/api'
 import {useNavigate } from 'react-router-dom'
+import useTokenStore from '../store'
 
 
 export function LoginDialog() {
   const navigate = useNavigate()
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
+
+  const setToken=useTokenStore(state=>state.setToken)
+
   //mutation
   const mutation = useMutation({
     mutationFn: logIn,
-    onSuccess: () => {
+    onSuccess: (response) => {
       // Invalidate and refetch
       console.log('login success');
       //redirect to dashboard
+
+      setToken(response.data.token);
       navigate('/dashboard/home')
 
 
