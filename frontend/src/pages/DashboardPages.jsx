@@ -4,29 +4,25 @@ import SimpleAreaChart from '../components/SimpleAreaChart'
 import SimplePieChart from '../components/PieChart'
 import ExpenseCard from '../components/ExpenseCard'
 import { FaArrowLeft } from "react-icons/fa6";
-import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { getAllExpenses } from '../http/api'
 
 const Dashboard = () => {
-  const [expenses, setExpenses] = useState([])
+  const {data,isLoading,error}=useQuery({
+    queryKey: ['expenses'],
+    queryFn: getAllExpenses
+    
+  })
 
-  // Here the expenses will be fetched from the backend
-  /*
-  useEffect(() => {
-    const fetchExpenses = async () => {
-      try {
-      } catch (error) {
-        
-      }
-    };
+  const expenses=[]
+
+  console.log("Expenses",data)
   
-    fetchExpenses();
-  }, []);
-  */
 
   // Function to calculate total expense amount
   const getTotalExpenseAmount = () => {
-    return expenses.reduce((total, expense) => total + expense.amount, 0)
+    // return expenses.reduce((total, expense) => total + expense.amount, 0)
   }
   return (
     <div className="flex flex-col h-screen w-full bg-gray-900 text-white overflow-x-hidden overflow-y-auto">
