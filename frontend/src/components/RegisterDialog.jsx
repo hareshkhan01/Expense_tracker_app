@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -54,6 +55,7 @@ export function LoginDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button className="bg-orange-600">Register</Button>
+        <Button className="bg-orange-600">Register</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -68,12 +70,14 @@ export function LoginDialog() {
               ref={nameRef}
               id="fullname"
               className="col-span-4"
-              placeholder="First Name"
+              placeholder="Full Name"
             />
           </div>
 
+
           <div className="grid grid-cols-4 items-center gap-4">
             <Input
+              ref={emailRef}
               ref={emailRef}
               id="email"
               className="col-span-4"
