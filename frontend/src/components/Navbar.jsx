@@ -7,12 +7,13 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useTokenStore from "../store";
 import { Button } from "./ui/button";
-
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate=useNavigate()
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const token=useTokenStore(state=>state.token)
+  const {token,setToken}=useTokenStore()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +28,10 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const logout=()=>{
+    setToken("")
+    navigate("/")
+  }
 
   return (
     <nav className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
@@ -64,8 +69,8 @@ export default function Navbar() {
             </Link>
           </div>
           <div className=" lg:flex gap-2 items-center">
-            {!token?<><LoginDialog />
-            <RegisterDialog/></>:<Button variant="destructive" className="bg-red-600 hover:bg-red-700">
+            {token===""?<><LoginDialog />
+            <RegisterDialog/></>:<Button onClick={()=>logout()} variant="destructive" className="bg-red-600 hover:bg-red-700">
                         Logout
                       </Button>}
           </div>
