@@ -45,7 +45,7 @@ import { create } from 'ts-node';
 
 
 // Fixed categories that are allowed
-const FIXED_CATEGORIES = ['food', 'transport', 'utilities','entertainment','shopping', 'others'];
+const FIXED_CATEGORIES = ['food', 'travel', 'utilities','entertainment','shopping', 'others'];
 interface CustomRequest extends Request {
   user?: User;
 }

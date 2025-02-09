@@ -16,15 +16,15 @@ const SimplePieChart = ({ expenses }) => {
 
   useEffect(() => {
     const updatedCategoryTotals = {
-      Entertainment: 0,
-      Food: 0,
-      Travel: 0,
-      Utilities: 0,
-      Shopping: 0,
-      Others: 0,
+      entertainment: 0,
+      food: 0,
+      travel: 0,
+      utilities: 0,
+      shopping: 0,
+      others: 0,
     };
 
-    expenses.forEach((expense) => {
+    expenses?.map((expense) => {
       const category = expense.category;
       const amount = parseFloat(expense.amount) || 0;
 

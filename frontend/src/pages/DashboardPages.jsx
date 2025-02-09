@@ -3,30 +3,25 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import SimpleAreaChart from '../components/SimpleAreaChart'
 import SimplePieChart from '../components/PieChart'
 import ExpenseCard from '../components/ExpenseCard'
-import { FaArrowLeft } from "react-icons/fa6";
-import { useState, useEffect } from 'react'
+import { FaArrowLeft } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { getAllExpenses } from '../http/api'
+import { useState, useEffect } from 'react'
 
 const Dashboard = () => {
   const [expenses, setExpenses] = useState([])
 
-  // Here the expenses will be fetched from the backend
-  /*
-  useEffect(() => {
-    const fetchExpenses = async () => {
-      try {
-      } catch (error) {
-        
-      }
-    };
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['expenses'],
+    queryFn: getAllExpenses,
+  })
+
   
-    fetchExpenses();
-  }, []);
-  */
 
   // Function to calculate total expense amount
   const getTotalExpenseAmount = () => {
-    return expenses.reduce((total, expense) => total + expense.amount, 0)
+    return data?.data?.expenses.reduce((total, expense) => total + expense.amount, 0)
   }
   return (
     <div className="flex flex-col h-screen w-full bg-gray-900 text-white overflow-x-hidden overflow-y-auto">
@@ -34,10 +29,13 @@ const Dashboard = () => {
       <div className="flex-1 p-6 max-w-screen mx-auto">
         {/* Navbar */}
         <header className="bg-white/10 shadow-lg p-4 rounded-lg flex justify-between items-center backdrop-blur-md">
-          <div className='flex gap-2'>
+          <div className="flex gap-2">
             <span>
               {/* After routet setup this will replced with Link */}
-              <Link to='/' className="bg-gray-800 hover:bg-gray-700 inline-flex items-center gap-2 px-4 py-2 rounded-lg">
+              <Link
+                to="/"
+                className="bg-gray-800 hover:bg-gray-700 inline-flex items-center gap-2 px-4 py-2 rounded-lg"
+              >
                 <FaArrowLeft />
                 Back
               </Link>
@@ -58,7 +56,7 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <p className="text-4xl font-extrabold text-orange-400">
-                ${getTotalExpenseAmount}
+                ${getTotalExpenseAmount()}
               </p>
             </CardContent>
           </Card>
@@ -72,7 +70,7 @@ const Dashboard = () => {
                 <CardTitle className="text-gray-300">Expense Trends</CardTitle>
               </CardHeader>
               <CardContent>
-                <SimpleAreaChart expenses={expenses} />
+                <SimpleAreaChart expenses={data?.data?.expenses} />
                 {/*Pass the expenses data as props*/}
               </CardContent>
             </Card>
@@ -85,7 +83,7 @@ const Dashboard = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <SimplePieChart expenses={expenses} />
+                <SimplePieChart expenses={data?.data?.expenses} />
                 {/*Pass the expenses data as props*/}
               </CardContent>
             </Card>
@@ -95,7 +93,7 @@ const Dashboard = () => {
         {/* Expense List - Scrollable */}
         <div className="mt-8 flex flex-wrap gap-3 ">
           {/* Use map function and Pass the expenses data as props */}
-          {expenses.map((expense, index) => (
+          {data?.data?.expenses.map((expense, index) => (
             <ExpenseCard key={index} expense={expense} />
           ))}
         </div>

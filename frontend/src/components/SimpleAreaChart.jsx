@@ -20,7 +20,7 @@ const SimpleAreaChart = ({ expenses }) => {
   useEffect(() => {
     const updatedExpenses = { ...monthWiseExpense };
 
-    expenses.forEach((expense) => {
+    expenses?.map((expense) => {
       const date = new Date(expense.date);
       const monthIndex = date.getMonth(); // Get month index (0-11)
       const monthNames = [
