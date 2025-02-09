@@ -27,10 +27,10 @@ const setToken = useTokenStore((state) => state.setToken)
     mutationFn: logIn,
     onSuccess: (res) => {
       // Invalidate and refetch
-      console.log('login success',res.data.token);
+      console.log('login success',res.token);
       //redirect to dashboard
-      setToken(res.data.token)
-      navigate('/dashboard/home')
+      setToken(res.token)
+      navigate('/allExpenses', { replace: true })
 
 
     },
@@ -48,6 +48,8 @@ const setToken = useTokenStore((state) => state.setToken)
 
 
   }
+
+  
 
   return (
     <Dialog>

@@ -1,24 +1,22 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import ExpenseCard from "@/components/ExpenseCard";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import {  fetchExpenses } from "../http/api"; // ✅ Correct way
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import ExpenseCard from '@/components/ExpenseCard';
-import { useState,useEffect } from 'react';
 
 const AddExpensePage = () => {
-    const [description,setDescription] = useState("");
-    const [expenses,setExpenses] = useState([]);
+  const [description, setDescription] = useState("");
 
+  // Fetch expenses using React Query
+  const { data: expenses = [], isLoading, isError } = useQuery({
+    queryKey: ["expenses"],
+    queryFn: fetchExpenses,
+  });
 
-    // Here the add expense logic is to be implemented
-    /*
-    const addExpense=()=>{
-        try{
-
-        }
-        catch(error){
-            
-        }
-    }*/
+   
+  console.log('data',expenses);
 
   return (
     <div className="flex flex-col h-screen w-full bg-gray-900 text-white p-6">

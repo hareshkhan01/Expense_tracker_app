@@ -12,11 +12,10 @@ const router = createBrowserRouter([
         element: <Dashboard />
     },
     {
-        path:'/addExpense',
+        path:'/allExpenses',
         element: <AddExpensePage/>
     },
-    
-       
+   
   
 ])
 
