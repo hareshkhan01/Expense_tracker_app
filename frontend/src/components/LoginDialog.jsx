@@ -30,12 +30,12 @@ export function LoginDialog() {
   const mutation = useMutation({
     mutationFn: logIn,
     onSuccess: (response) => {
-      // Invalidate and refetch
-      console.log('login success',response.data.token);
+     
+   
+      console.log('login success',res.token);
       //redirect to dashboard
-
-      setToken(response.data.token);
-      navigate('/dashboard/home')
+      setToken(res.token)
+      navigate('/allExpenses', { replace: true })
 
 
     },
@@ -53,6 +53,8 @@ export function LoginDialog() {
 
 
   }
+
+  
 
   return (
     <Dialog>
